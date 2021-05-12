@@ -152,6 +152,14 @@ if __name__=='__main__':
                 count_r,array_right=deleter(array_right,count_r)
                 count_s,array_straight=deletes(array_straight,count_s)
                 flag=1
+            elif(array_right[0].straight_>0):
+                array_right[0].right_-=1
+                array_right[0].straight_-=1
+                array_right[0].right.execute()
+                array_right[0].straight.execute()
+                count_r,array_right=deleter(array_right,count_r)
+                count_s,array_straight=deletes(array_straight,count_s)
+                flag=1    
                 
             else:
                 flag=0
