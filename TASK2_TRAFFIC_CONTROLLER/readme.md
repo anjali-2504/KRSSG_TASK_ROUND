@@ -12,6 +12,7 @@ B
 C
 D
 
+Initially and after each transition the states return back to stop signal.
 
 
 
