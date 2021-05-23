@@ -26,11 +26,13 @@ def poseCallback(pose_message):
 
 
 
-def move(speed,distancde,is_forward):
+def move(speed,goal,is_forward):
+
     velocity_message=Twist()
     global x,y
     x0=x
     y0=y
+    epsilon=4	
     if(is_forward):
         velocity_message.linear.x=abs(speed)
     else:
@@ -40,12 +42,12 @@ def move(speed,distancde,is_forward):
     cmd_vel_topic='/turtle1/cmd_vel'
     velocity_publisher=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)
     while True:
-        rospy.loginfo("TURTLESIM MOVES FORWARD")
+        rospy.loginfo("TURTLESIM MOVES BACKWARD")
         velocity_publisher.publish(velocity_message)
         loop_rate.sleep()
         distance_moved+=abs(0.5*math.sqrt((x-x0)**2+(y-y0)**2))
         print(distance_moved)
-        if not(distance_moved<distance_moved):
+        if not abs(0.5*math.sqrt((x-goal[0])**2+(y-goal[1])**2))<epsilon):
             rospy.loginfo("reached")
             break
 
@@ -162,9 +164,10 @@ if __name__=='__main__':
         (484, 342), (462, 314), (467, 279), (459, 244), (424, 241), (435, 241), (424, 241), (435, 241), (415, 213),
          (382, 202), (365, 172), (335, 156), (312, 182), (287, 159), (267, 131), (233, 132), (199, 131), (165, 132), (145, 104), 
          (114, 90), (82, 76), (57, 52)]
+	
         
         for path in paths:
-            move(1.0,2.0,True)
+            move(1.0,(path[0],path[1]),False)
             setDesiredOrientation(math.radians(90))
 
     except rospy.ROSInterruptException:
