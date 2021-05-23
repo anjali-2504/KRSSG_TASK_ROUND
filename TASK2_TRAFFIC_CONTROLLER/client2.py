@@ -12,4 +12,3 @@ c.send(pickle.dumps(x))
 for i in range(int( x)):
     a=input("Enter the string")
     c.send((pickle.dumps(a)))
-    
