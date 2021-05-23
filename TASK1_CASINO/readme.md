@@ -12,7 +12,13 @@ ALGORITHM:
  2.The array generated through random numbers is shuffled properly to ensure that the game is unbiased.
  3.The server also displays the number of clients playing the game by using the threading.ThreadCount()
  4.The dictionary dict  keeps record of the name of the player along with the round and his score in that round.
- 5.flag keeps a check on the fact that the message "YOU WON {} ROUNDS OUT OF {}" does not get displayed over and over again in the while loop
+ 5.flag keeps a check on the fact that the message "YOU WON {} ROUNDS OUT OF {}" does not get displayed over and over again in the while loop.
+ 
+ ***HOW TO RUN:
+ run the server.py first
+ Open the cmd and then run :
+ python client.py
+ In order to start the game enter 1 and then the required answers to the questions. Now, open as many terminals as you specified and now enter 0 to distinguish that you are the    player.Now, you can enjoy the game.***
  
  
  
