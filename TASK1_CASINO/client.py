@@ -23,18 +23,22 @@ if bool_ans == 1:
 else:
     name = input("Enter your name..")
     send(name)
-    play = input("do you want to play the game? YES OR NO")
-    send(play)
-    r=int(pickle.loads(c.recv(1024)))
-    for i in range(r):
-        print(pickle.loads(c.recv(1024)))
-        num = input("Enter max val")
-        c.send(pickle.dumps(num))
-        print("Thanks!! Time for the next round..")
-        time.sleep(1)
-    time.sleep(5)
-    print(pickle.loads(c.recv(1024)))
-    c.recv(1024).decode()
-send(DISCONNECT_MESSAGE)
-
+    go=True
+    while go:
+        play = input("do you want to play the game? YES OR NO")
+        send(play)
+        if play=="NO":
+            go=False
+        else:
+            r = int(pickle.loads(c.recv(1024)))
+            for i in range(r):
+                print(pickle.loads(c.recv(1024)))
+                num = input("Enter max val")
+                c.send(pickle.dumps(num))
+                print("Thanks!! Time for the next round..")
+                time.sleep(1)
+            time.sleep(5)
+            print(pickle.loads(c.recv(1024)))
+            print(c.recv(1024).decode(FORMAT))
+c.send(DISCONNECT_MESSAGE.encode())
 
