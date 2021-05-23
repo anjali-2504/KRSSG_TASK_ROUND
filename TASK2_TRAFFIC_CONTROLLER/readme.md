@@ -26,7 +26,9 @@ The function deleter and deletes removes the instances whose the queue number fo
 
 
 
-
+***HOW TO RUN ***
+FIRST RUN TASK2.PY
+THEN RUN CLIENT2.PY FROM CMD TO GIVE THE INSTRUCTIONS
 
 
 
