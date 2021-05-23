@@ -82,12 +82,28 @@ There are many functions  in this:
  value of angle
  
  Thsi file could be executed by:
- launching
- ***roscore***
- ***rosrun turtlesim turtlesim_node***
- ***chmod +x turtlesim_simulator.py***
- ***rosrun turtlesim_simultor.py***
-    
+***$ source /opt/ros/noetic/setup.bash
+$ mkdir -p ~/tutorial_ws/src
+$ cd ~/tutorial_ws
+$ catkin_init_workspace src
+$ catkin_make
+$ source devel/setup.bash
+$ cd %YOUR_CATKIN_WORKSPACE_HOME%/src
+$ catkin_create_pkg learning_tf tf roscpp rospy turtlesim
+ $ cd %YOUR_CATKIN_WORKSPACE_HOME%/
+ $ catkin_make
+ $ source ./devel/setup.bash
+ $ roscd learning_tf
+ $ mkdir nodes
+  $ chmod +x nodes/turtlesim_simulator.py
+  new terminal
+   $roscore
+  new terminal
+  $ rosrun turtllesim turtlesim_node
+first terminal
+  $ rosrun learning_tf turtlesim_simulator.py***
+ 
+
     
 
 
