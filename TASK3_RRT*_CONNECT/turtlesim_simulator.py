@@ -7,8 +7,8 @@ import math
 import time
 from std_srvs.srv import Empty
 import numpy as np
-x=0
-y=0
+x=5.55
+y=5.45
 z=0
 yaw=0
 
@@ -32,7 +32,7 @@ def move(speed,goal,is_forward):
     global x,y
     x0=x
     y0=y
-    epsilon=4	
+    epsilon=0.01	
     if(is_forward):
         velocity_message.linear.x=abs(speed)
     else:
@@ -47,7 +47,7 @@ def move(speed,goal,is_forward):
         loop_rate.sleep()
         distance_moved+=abs(0.5*math.sqrt((x-x0)**2+(y-y0)**2))
         print(distance_moved)
-        if not abs(0.5*math.sqrt((x-goal[0])**2+(y-goal[1])**2))<epsilon):
+        if not abs(0.5*math.sqrt((x-goal[0])**2+(y-goal[1])**2))<epsilon:
             rospy.loginfo("reached")
             break
 
@@ -97,11 +97,11 @@ def go_to_goal(x_goal,y_goal):
     cmd_vel_topic='/turtle1/cmd_vel'
     velocity_publisher=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)
     while TRUE:
-        K_linear=0.5
+        K_linear=0.05
         distance=abs(math.sqrt(((x-x_goal)**2)+(y-y_goal)**2))
         linear_speed=distance*K_linear
         K_angular=4.0
-        desired_angle_goal=math.atan2(y_goal-y,x_goal-x)
+        desired_angle_goal=-math.atan2(y_goal-y,x_goal-x)
         angular_speed=(desired_angle_goal-yaw)*K_angular
         velocity_message.linear.x=linear_speed
         velocity_message.angular.z=angular_speed
@@ -164,11 +164,18 @@ if __name__=='__main__':
         (484, 342), (462, 314), (467, 279), (459, 244), (424, 241), (435, 241), (424, 241), (435, 241), (415, 213),
          (382, 202), (365, 172), (335, 156), (312, 182), (287, 159), (267, 131), (233, 132), (199, 131), (165, 132), (145, 104), 
          (114, 90), (82, 76), (57, 52)]
+        new_path=[]
+        for path in paths:
+            (x,y)=(path[0]/60,11-path[1]/60)
+            new_path.append((x,y))
+
 	
         
-        for path in paths:
-            move(1.0,(path[0],path[1]),False)
-            setDesiredOrientation(math.radians(90))
+        for path in new_path:
+            go_to_goal(path[0],path[1])
+            x=path[0]
+            y=path[1]
+            #setDesiredOrientation(math.radians(90))
 
     except rospy.ROSInterruptException:
-        rospy.loginfo("node terminated")
+        rospy.loginfo("node terminated")  
