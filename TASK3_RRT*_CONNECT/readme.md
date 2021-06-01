@@ -81,7 +81,7 @@ There are many functions  in this:
  def set desired orientation is actually used to instruct which direction would the turtle currently point to clockwise or anticlokwise based on the relative 
  value of angle
  
- Thsi file could be executed by:
+[ Thsi file could be executed by:
 ***$ source /opt/ros/noetic/setup.bash
 $ mkdir -p ~/tutorial_ws/src
 $ cd ~/tutorial_ws
@@ -99,9 +99,11 @@ $ catkin_create_pkg learning_tf tf roscpp rospy turtlesim
   new terminal
    $roscore
   new terminal
+  $sudo apt-get install ros-$(rosversion -d)-turtlesim
+  new terminal
   $ rosrun turtllesim turtlesim_node
 first terminal
-  $ rosrun learning_tf turtlesim_simulator.py***
+  $ rosrun learning_tf turtlesim_simulator.py***](url)
  
 
     
