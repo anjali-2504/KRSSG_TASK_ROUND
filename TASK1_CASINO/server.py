@@ -201,4 +201,3 @@ print("[STARTING] server is starting...")
 (k,r)=get_client_num()
 score_b=np.empty((0,k), int)
 start(k,r)  
-
