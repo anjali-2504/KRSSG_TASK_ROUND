@@ -36,72 +36,6 @@ def poseCallback(pose_message):
 
 
 
-'''def move(speed,goal,is_forward):
-
-    velocity_message=Twist()
-    global x,y
-    x0=x
-    y0=y
-    epsilon=4	
-    if(is_forward):
-        velocity_message.linear.x=abs(speed)
-    else:
-        velocity_message.linear.x=-abs(speed)
-    distance_moved=0.0
-    loop_rate=rospy.Rate(10)
-    cmd_vel_topic='/turtle1/cmd_vel'
-    velocity_publisher=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)
-    while True:
-        rospy.loginfo("TURTLESIM MOVES BACKWARD")
-        velocity_publisher.publish(velocity_message)
-        loop_rate.sleep()
-        distance_moved+=abs(0.5*math.sqrt((x-x0)**2+(y-y0)**2))
-        print(distance_moved)
-        if not abs(0.5*math.sqrt((x-goal[0])**2+(y-goal[1])**2))<epsilon:
-            rospy.loginfo("reached")
-            break
-
-    velocity_message.linear.x=0
-    velocity_publisher.publish(velocity_message)
-
-def rotate(angular_speed_degree,relative_angle_degree,clockwise):
-    global yaw
-    velocity_message=Twist()
-    velocity_message.linear.x=0
-    velocity_message.linear.y=0
-    velocity_message.linear.z=0
-    velocity_message.angular.x=0
-    velocity_message.angular.y=0
-    velocity_message.angular.z=0
-
-    thetat0=yaw
-    angular_speed=math.radians(abs(angular_speed_degree))
-    if(clockwise):
-        velocity_message.angular.z=-abs(angular_speed)
-    else:
-        velocity_message.angular.z=abs(angular_speed)
-        velocity_message.angular.z=abs(angular_speed)
-
-
-    angle_moved=0.0
-    loop_rate=rospy.Rate(10)
-    cmd_vel_topic='/turtle1/cmd_vel'
-    velocity_publisher=rospy.Publisher(cmd_vel_topic,Twist,queue_size=10)
-
-    t0=rospy.Time.now().to_sec()
-    while True:
-        rospy.loginfo("Turtlesim rotates")
-        velocity_publisher.publish(velocity_message)
-        t1=rospy.Time.now().to_sec()
-        current_angle_degree=(t1-t0)*angular_speed_degree
-        loop_rate.sleep()
-        if(current_angle_degree>relative_angle_degree):
-            rospy.loginfo("reached")
-            break
-    velocity_message.angular.z=0
-    velocity_publisher.publish(velocity_message)'''
-
-
 def compute_angle(error):
     global Integrator, Derivator, yaw
 
@@ -186,47 +120,6 @@ def move(x_goal,y_goal):
         if(distance<0.1):
             break
 
-
-'''def setDesiredOrientation(desired_angle_radians):
-    relative_angle_radians=desired_angle_radians-yaw
-    if relative_angle_radians<0:
-        clockwise=1
-    else :
-        clockwise=0
-    print(relative_angle_radians,desired_angle_radians)   
-    rotate(30,math.degrees(abs(relative_angle_radians),clockwise)) 
-class PID(object):
-	def __init__(self,KP,KI,KD,target):
-		self.kp = KP
-		self.ki = KI
-		self.kd = KD 
-		self.setpoint = target
-		self.error = 0
-		self.integral_error = 0
-		self.error_last = 0
-		self.derivative_error = 0
-		self.output = 0
-	def compute(self, pos):
-		self.error = self.setpoint - pos
-		#self.integral_error += self.error * TIME_STEP
-		self.derivative_error = (self.error - self.error_last) / TIME_STEP
-		self.error_last = self.error
-		self.output = self.kp*self.error + self.ki*self.integral_error + self.kd*self.derivative_error
-		if((((self.error>=0) and (self.integral_error>=0))or((self.error<0) and (self.integral_error<0)))):
-				self.integral_error += self.error * TIME_STEP
-		else:
-			#rectangular integration
-			self.integral_error += self.error * TIME_STEP
-
-		return self.output
-		
-	def get_kpe(self):
-		return self.kp*self.error
-	def get_kde(self):
-		return self.kd*self.derivative_error
-	def get_kie(self):
-		return self.ki*self.integral_error'''
-
 if __name__=='__main__':
     try:
         rospy.wait_for_service('turtle1/teleport_absolute')
@@ -240,12 +133,7 @@ if __name__=='__main__':
         
         time.sleep(2)
         fp = open('nodes/points.txt', 'r')
-        #paths= fp.readline().split()
-        '''paths=[(574, 541),
-        (484, 342), (462, 314), (435, 241), (415, 213)
-         , (365, 172), (335, 156), (312, 182), (287, 159), (145, 104), 
-         (114, 90), (82, 76), (57, 52)]'''
-         #fp = open('points.txt', 'r')
+
         points = []
         for line in fp:
             if(line=='\n'):
@@ -259,18 +147,6 @@ if __name__=='__main__':
             rotate(points[id][0],points[id][1])
             move(points[id][0],points[id][1])
 
-        '''for index, point in enumerate(points):/home/anjali/tutorial_ws/src/learning_tf/nodes
-            if index!=len(points) - 1:
-                #print(points[index], points[index+1])
-                x2=points[index][0]
-                y2=points[index][1]
-                #print(x2,)
-
-                go_to_goal(x2,y2)
-       # print(points[index+1])
-                #print(index)    
-
-            #setDesiredOrientation(math.radians(90))'''
 
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated")  
